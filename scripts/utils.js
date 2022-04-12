@@ -19,7 +19,8 @@ function normalizarEmail(email) {
 
 /* -------------------------------- password -------------------------------- */
 function validarContrasenia(contrasenia) {
-    let noValid = [' ', '-'];
+
+    let noValid = [' ', '-', "a"];
     let i = 0;
     let passValid = true;
 
@@ -33,11 +34,17 @@ function validarContrasenia(contrasenia) {
         i++;
     }
 
-    return passValid;
+    if (passValid) {
+        return validarMinimoContraseña(contrasenia)
+    } else {
+        return passValid;
+    }
+
+
 }
 
 function validarMinimoContraseña(contrasenia) {
-    return contrasenia.length >= 3;
+    return contrasenia.length >= 5;
 }
 
 function compararContrasenias(contrasenia_1, contrasenia_2) {
@@ -59,6 +66,7 @@ function validarNombre(name) {
 
     return nameValid;
 }
+
 
 function mostrarMensajeEnElemento(message) {
     let div = document.createElement('div');
