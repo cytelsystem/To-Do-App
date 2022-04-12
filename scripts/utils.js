@@ -20,7 +20,7 @@ function normalizarEmail(email) {
 /* -------------------------------- password -------------------------------- */
 function validarContrasenia(contrasenia) {
 
-    let noValid = [' ', '-', "a"];
+    let noValid = [' ', '-'];
     let i = 0;
     let passValid = true;
 
