@@ -10,14 +10,63 @@ window.addEventListener('load', function() {
         // Capturamos los datos del formulario
         // Llamamos a la API en realizarRegister
         // Si el registro se hizo ok, guardamos el token en 'localStorage'
+        event.preventDefault()
+
+        let data = {
+            firstName: document.querySelector('#inputNombre').value,
+            lastName: document.querySelector('#inputApellido').value,
+            email: document.querySelector('#inputEmail').value,
+            password: document.querySelector('#inputPassword').value,
+          }
+
+          realizarRegister(data)
+
+
+
     });
 
     /* -------------------------------------------------------------------------- */
     /*                    FUNCIÓN 2: Realizar el signup [POST]                    */
     /* -------------------------------------------------------------------------- */
-    function realizarRegister(settings) {
+    function realizarRegister(data) {
+
+        let settings = {
+            "method": "POST",
+            "headers": {
+              "content-type": "application/json"
+            },
+            "body": JSON.stringify(data)
+          }
+
+          Url = "https://ctd-todo-api.herokuapp.com/v1/users"
+          fetch(Url, settings)
+
+          .then(function(respuesta){
+            return respuesta.json()
+
+          })
+
+          .then(function(informacion){
+            console.log("informacion que retorna" + " " + informacion);
+
+            if (informacion == "El usuario ya se encuentra registrado") {
+                alert("El usuario ya se encuentra registrado")
+
+            } else {
+                localStorage.setItem(data.email, JSON.stringify(informacion));
+                console.table(localStorage)
+            }
+
+
+          })
+          .catch(function(e){
+            console.log("Error! " + e)
+           })
+
 
     };
+
+
 
     document.querySelector('#inputNombre').addEventListener('keypress', (e) => {
 
@@ -109,5 +158,8 @@ window.addEventListener('load', function() {
     // });
 
 });
+
+
+
 
 

@@ -44,12 +44,12 @@ function validarContrasenia(contrasenia) {
 }
 
 function validarMinimoContraseña(contrasenia) {
-    return contrasenia.length >= 5;
+    return contrasenia.length >= 3;
 }
 
-function compararContrasenias(contrasenia_1, contrasenia_2) {
-    return contrasenia_1 === contrasenia_2;
-}
+// function compararContrasenias(contrasenia_1, contrasenia_2) {
+//     return contrasenia_1 === contrasenia_2;
+// }
 
 function validarNombre(name) {
     let noValid = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '-'];
@@ -68,9 +68,9 @@ function validarNombre(name) {
 }
 
 
-function mostrarMensajeEnElemento(message) {
-    let div = document.createElement('div');
-    div.innerHTML = `<p>${message}</p>`;
+// function mostrarMensajeEnElemento(message) {
+//     let div = document.createElement('div');
+//     div.innerHTML = `<p>${message}</p>`;
 
-    return div;
-}
+//     return div;
+// }
