@@ -36,33 +36,30 @@ window.addEventListener('load', function() {
               "content-type": "application/json"
             },
             "body": JSON.stringify(data)
-          }
+        }
 
-          Url = "https://ctd-todo-api.herokuapp.com/v1/users"
-          fetch(Url, settings)
+        Url = "https://ctd-todo-api.herokuapp.com/v1/users"
+        fetch(Url, settings)
 
-          .then(function(respuesta){
-            return respuesta.json()
-
-          })
-
-          .then(function(informacion){
-            console.log("informacion que retorna" + " " + informacion);
-
-            if (informacion == "El usuario ya se encuentra registrado") {
-                alert("El usuario ya se encuentra registrado")
-
-            } else {
-                localStorage.setItem(data.email, JSON.stringify(informacion));
-                console.table(localStorage)
+        .then(function(respuesta){
+            if (respuesta.status == 400 || respuesta.status == 404) {
+            alert("El usuario ya se encuentra registrado / Alguno de los datos requeridos está incompleto")
             }
+            if (respuesta.status == 500) {
+            alert("El sistema esta caido, intente mas tarde")
+            }
+            if (respuesta.status == 201) {
+            return respuesta.json()
+            }
+        })
 
-
-          })
-          .catch(function(e){
-            console.log("Error! " + e)
-           })
-
+        .then(function(informacion){
+            localStorage.setItem(data.email, JSON.stringify(informacion));
+            console.table(localStorage)
+        })
+        .catch(function(e){
+        console.log("Error! " + e)
+        })
 
     };
 

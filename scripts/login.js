@@ -1,6 +1,8 @@
 window.addEventListener('load', function() {
     /* ---------------------- obtenemos variables globales ---------------------- */
 
+    const urlBase = "https://ctd-todo-api.herokuapp.com/v1/"
+
 
 
 
@@ -8,6 +10,8 @@ window.addEventListener('load', function() {
     /* -------------------------------------------------------------------------- */
     /*            FUNCIÓN 1: Escuchamos el submit y preparamos el envío           */
     /* -------------------------------------------------------------------------- */
+
+    const form = document.querySelector('form');
     form.addEventListener('submit', function(event) {
 
         event.preventDefault()
@@ -36,39 +40,30 @@ window.addEventListener('load', function() {
             "body": JSON.stringify(dataLogin)
           }
 
-          Url = "https://ctd-todo-api.herokuapp.com/v1/users/login"
+          Url = urlBase + "users/login"
           fetch(Url, settings)
 
           .then(function(respuesta){
-              
-            return respuesta.json()
-
+            if (respuesta.status == 400 || respuesta.status == 404) {
+              alert("Credenciales invalidas")
+            }
+            if (respuesta.status == 500) {
+              alert("El sistema esta caido, intente mas tarde")
+            }
+            if (respuesta.status == 201) {
+              return respuesta.json()
+            }
           })
 
           .then(function(informacion){
-            console.log("informacion que retorna" + " " + informacion);
-
-            if (informacion == "El usuario ya se encuentra registrado") {
-                alert("El usuario ya se encuentra registrado")
-
-            } else {
-                localStorage.setItem(data.email, JSON.stringify(informacion));
+                localStorage.setItem(dataLogin.email, JSON.stringify(informacion));
                 console.table(localStorage)
-            }
-
-
+                alert("login correcto")
           })
           .catch(function(e){
             console.log("Error! " + e)
            })
 
-
-
-
-
-
-
     };
-
 
 });
