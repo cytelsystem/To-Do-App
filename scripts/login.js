@@ -79,7 +79,7 @@ window.addEventListener('load', function() {
           .then(function(informacion){
                 localStorage.setItem(dataLogin.email, JSON.stringify(informacion));
                 console.table(localStorage)
-                alert("login correcto")
+                location.href = "./mis-tareas.html"
           })
           .catch(function(e){
             console.log("Error! " + e)
