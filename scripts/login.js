@@ -2,6 +2,8 @@ window.addEventListener('load', function() {
     /* ---------------------- obtenemos variables globales ---------------------- */
 
     const urlBase = "https://ctd-todo-api.herokuapp.com/v1/"
+    const inputEmail = document.querySelector('#inputEmail')
+    const password = document.querySelector('#inputPassword')
 
 
 
@@ -17,12 +19,11 @@ window.addEventListener('load', function() {
         event.preventDefault()
 
         let dataLogin = {
-            email: document.querySelector('#inputEmail').value,
-            password: document.querySelector('#inputPassword').value,
+            email: inputEmail.value,
+            password: password.value,
           }
 
           realizarLogin(dataLogin)
-
 
     });
 
@@ -30,6 +31,23 @@ window.addEventListener('load', function() {
     /* -------------------------------------------------------------------------- */
     /*                     FUNCIÓN 2: Realizar el login [POST]                    */
     /* -------------------------------------------------------------------------- */
+
+    inputEmail.addEventListener('blur', (e) => {
+      if (validarEmail(e.target.value) == false) {
+          e.target.value = ""
+          e.target.placeholder = "El campo email no tiene el formato correcto."
+          e.preventDefault();
+      }
+    });
+
+    password.addEventListener('focus', (e) => {
+      if (inputEmail.value == "") {
+        inputEmail.focus();
+      }
+    });
+
+
+
     function realizarLogin(dataLogin) {
 
         let settings = {
@@ -44,13 +62,16 @@ window.addEventListener('load', function() {
           fetch(Url, settings)
 
           .then(function(respuesta){
-            if (respuesta.status == 400 || respuesta.status == 404) {
-              alert("Credenciales invalidas")
-            }
-            if (respuesta.status == 500) {
+            if (respuesta.status == 400) {
+              alert("Contraseña incorrecta")
+              event.preventDefault()
+            } else if (respuesta.status == 404){
+              alert("El usuario no existe")
+              event.preventDefault()
+            } else if (respuesta.status == 500) {
               alert("El sistema esta caido, intente mas tarde")
-            }
-            if (respuesta.status == 201) {
+              event.preventDefault()
+            } else {
               return respuesta.json()
             }
           })
