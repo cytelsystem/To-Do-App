@@ -1,3 +1,5 @@
+const urlBase = "https://ctd-todo-api.herokuapp.com/v1/"
+
 /* ---------------------------------- texto --------------------------------- */
 function validarTexto(texto) {
 
@@ -74,3 +76,17 @@ function validarNombre(name) {
 
 //     return div;
 // }
+
+
+const tokenKey = 'jwt';
+
+// function saveToken(token) {
+//     sessionStorage.setItem(tokenKey, token);
+//     localStorage.setItem('jwt', JSON.stringify(data.jwt));
+// }
+
+function getToken() {
+    return localStorage.getItem(tokenKey);
+
+}
+

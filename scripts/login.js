@@ -1,7 +1,7 @@
 window.addEventListener('load', function() {
     /* ---------------------- obtenemos variables globales ---------------------- */
 
-    const urlBase = "https://ctd-todo-api.herokuapp.com/v1/"
+
     const inputEmail = document.querySelector('#inputEmail')
     const password = document.querySelector('#inputPassword')
 
@@ -50,36 +50,35 @@ window.addEventListener('load', function() {
 
     function realizarLogin(dataLogin) {
 
-        let settings = {
+          let settings = {
             "method": "POST",
+            "body": JSON.stringify(dataLogin),
             "headers": {
               "content-type": "application/json"
-            },
-            "body": JSON.stringify(dataLogin)
+            }
           }
 
           Url = urlBase + "users/login"
           fetch(Url, settings)
 
-          .then(function(respuesta){
+          .then(respuesta => {
             if (respuesta.status == 400) {
               alert("Contraseña incorrecta")
-              event.preventDefault()
-            } else if (respuesta.status == 404){
+            } else if (respuesta.status == 404) {
               alert("El usuario no existe")
-              event.preventDefault()
             } else if (respuesta.status == 500) {
               alert("El sistema esta caido, intente mas tarde")
-              event.preventDefault()
             } else {
               return respuesta.json()
             }
+
           })
 
-          .then(function(informacion){
-                localStorage.setItem(dataLogin.email, JSON.stringify(informacion));
-                console.table(localStorage)
-                location.href = "./mis-tareas.html"
+          .then(informacion => {
+            console.table(informacion.jwt)
+            // saveToken(informacion.jwt)
+            localStorage.setItem('jwt', JSON.stringify(informacion.jwt));
+            location.href = "./mis-tareas.html"
           })
           .catch(function(e){
             console.log("Error! " + e)
